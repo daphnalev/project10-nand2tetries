@@ -48,8 +48,7 @@ public class Parser {
             case CLASS_VAR_DEC:
                 parseClassVarDecleration();
                 break;
-            case METHOD_DECLARATION:
-            case FUNCTION_DECLERATION:
+            case SUBROUTINE_DEC:
                 parseSubRoutineDeclaration();
                 break;
 
@@ -115,7 +114,7 @@ public class Parser {
     }
 
     /* This method in is charge of parsing the method declaration. */
-    private void parseMethodDeclaration() throws ParserException {
+    private void parseSubRoutineDeclaration() {
         MethodSymbol methodSymbol = new MethodSymbol(new VariableSymbol(VOID));
         expect(ID);
         String methodName = currToken.getValue();
@@ -133,7 +132,7 @@ public class Parser {
     }
 
     /* This method is in charge of validating the method's name. */
-    private void validateMethodName(String methodName) throws IllegalMethodNameException {
+    private void validateMethodName(String methodName) {
         try {
             Tokenizer.validateMethodName(methodName);
         } catch (UnknownTokenException e) {
@@ -164,7 +163,7 @@ public class Parser {
     }
 
     /* This method matches the variable to it's type. */
-    private void matchVariableType(VariableSymbolBuilder varBuilder) throws ParserException {
+    private void matchVariableType(VariableSymbolBuilder varBuilder){
         for (TokenType varType : SemanticAnalyzer.variableTypes) {
             if (nextTokenIs(varType)) {
                 varBuilder.setType(varType);
