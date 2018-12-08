@@ -116,27 +116,30 @@ public class Parser {
     /* This method in is charge of parsing the method declaration. */
     private void parseSubRoutineDeclaration() {
         MethodSymbol methodSymbol = new MethodSymbol(new VariableSymbol(VOID));
-        expect(ID);
-        String methodName = currToken.getValue();
-        validateMethodName(methodName);
-        expect(L_PAREN);
-        if (!nextTokenIs(R_PAREN)) {
-            do {
-                matchParameter(methodSymbol);
-            } while (nextTokenIs(COMMA));
-            expect(R_PAREN);
+        if (nextTokenIs(ID)) {
+            String methodName = currToken.getValue();
+            if (validateMethodName(methodName)) {
+                expect(L_PAREN);
+                if (!nextTokenIs(R_PAREN)) {
+                    do {
+                        matchParameter(methodSymbol);
+                    } while (nextTokenIs(COMMA));
+                    expect(R_PAREN);
+                }
+                expect(L_BRACE);
+                addMethodToScope(methodName, methodSymbol);
+                end();
+            }
         }
-        expect(L_BRACE);
-        addMethodToScope(methodName, methodSymbol);
-        end();
     }
-
+    
     /* This method is in charge of validating the method's name. */
-    private void validateMethodName(String methodName) {
+    private boolean validateMethodName(String methodName) {
         try {
             Tokenizer.validateMethodName(methodName);
+            return true;
         } catch (UnknownTokenException e) {
-            throw new IllegalMethodNameException(methodName);
+            return false;
         }
     }
 
