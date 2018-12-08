@@ -28,10 +28,8 @@ public class MethodSymbol implements Iterable<Map.Entry<String, VariableSymbol>>
      * This function adds a symbol to the symbol table of the method.
      * @param paramName the new parameter name
      * @param paramSymbol the data type that holds the parameter data.
-     * @throws SymbolAlreadyExistsException When the symbol is already present in the method's parameters.
      */
-    public void addParameter(String paramName, VariableSymbol paramSymbol)
-            throws SymbolAlreadyExistsException {
+    public void addParameter(String paramName, VariableSymbol paramSymbol){
         parameters.add(paramName, paramSymbol);
     }
 
